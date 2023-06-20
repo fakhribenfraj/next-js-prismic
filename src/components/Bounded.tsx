@@ -1,11 +1,17 @@
 import clsx from "clsx";
 
+type BoundedProps = {
+  as?: string;
+  size?: "small" | "base" | "wide" | "widest";
+  className?: string;
+  children: React.ReactNode;
+};
 export function Bounded({
   as: Comp = "div",
   size = "base",
   className,
   children,
-}) {
+}: BoundedProps) {
   return (
     <Comp className={clsx("px-4 py-8 md:px-6 md:py-10 lg:py-12", className)}>
       <div

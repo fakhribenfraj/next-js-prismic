@@ -30,8 +30,16 @@ const routes = [
  *
  * @param config {prismicNext.CreateClientConfig} - A configuration object to
  */
-export const createClient = ({ previewData, req, ...config } = {}) => {
+export const createClient = ({
+  previewData,
+  req,
+  ...config
+}: prismicNext.CreateClientConfig = {}) => {
   const client = prismic.createClient(repositoryName, {
+    fetchOptions: {
+      cache: process.env.NODE_ENV === "production" ? "force-cache" : "no-store",
+      next: { tags: ["prismic"] },
+    },
     routes,
     ...config,
   });

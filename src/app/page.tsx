@@ -12,7 +12,7 @@ export async function generateMetadata() {
   const settings = await client.getSingle("settings");
 
   return {
-    title: asText(settings.data.title),
+    title: asText(settings.data.name),
   };
 }
 

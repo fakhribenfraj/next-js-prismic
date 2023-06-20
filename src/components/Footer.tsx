@@ -6,8 +6,11 @@ import { Bounded } from "./Bounded";
 import { Heading } from "./Heading";
 import { HorizontalDivider } from "./HorizontalDivider";
 import { PrismicRichText } from "./PrismicRichText";
-
-function SignUpForm({ settings }) {
+type SignUpFormProps = {
+  settings: any;
+};
+type formSettings = {};
+function SignUpForm({ settings }: SignUpFormProps) {
   return (
     <div className="px-4">
       <form
@@ -63,7 +66,11 @@ function SignUpForm({ settings }) {
   );
 }
 
-export function Footer({ withSignUpForm = true, settings }) {
+type FooterProps = {
+  withSignUpForm?: boolean;
+  settings: any;
+};
+export function Footer({ withSignUpForm = true, settings }: FooterProps) {
   return (
     <Bounded as="footer">
       <div className="grid grid-cols-1 justify-items-center gap-24">

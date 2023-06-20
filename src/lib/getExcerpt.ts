@@ -1,6 +1,7 @@
 import * as prismic from "@prismicio/client";
+import { ArticleDocumentDataSlicesSlice } from "../../prismicio-types";
 
-export function getExcerpt(slices) {
+export function getExcerpt(slices: prismic.SliceZone) {
   const text = slices
     .filter((slice) => slice.slice_type === "text")
     .map((slice) => prismic.asText(slice.primary.text))
