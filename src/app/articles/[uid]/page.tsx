@@ -101,37 +101,9 @@ export default async function Article({ params }) {
   );
 }
 
-// export async function getStaticProps({ params, previewData }) {
-//   const client = createClient({ previewData });
-
-//   const article = await client.getByUID("article", params.uid);
-//   const latestArticles = await client.getAllByType("article", {
-//     limit: 3,
-//     orderings: [
-//       { field: "my.article.publishDate", direction: "desc" },
-//       { field: "document.first_publication_date", direction: "desc" },
-//     ],
-//   });
-//   const navigation = await client.getSingle("navigation");
-//   const settings = await client.getSingle("settings");
-
-//   return {
-//     props: {
-//       article,
-//       latestArticles,
-//       navigation,
-//       settings,
-//     },
-//   };
-// }
-
-export async function getStaticPaths() {
+export const dynamicParams = false;
+export async function generateStaticParams() {
   const client = createClient();
-
   const articles = await client.getAllByType("article");
-
-  return {
-    paths: articles.map((article) => prismic.asLink(article)),
-    fallback: false,
-  };
+  return articles.map((article) => prismic.asLink(article));
 }

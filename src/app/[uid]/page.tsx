@@ -39,26 +39,9 @@ export default async function Page({ params }) {
   );
 }
 
-// export async function getStaticProps({ params, previewData }) {
-//   const client = createClient({ previewData });
-//   const pages = await client.getAllByType("page");
-//   const page = await client.getByUID("page", params.uid);
-//   const navigation = await client.getSingle("navigation");
-//   const settings = await client.getSingle("settings");
-
-//   return {
-//     props: {
-//       page,
-//       navigation,
-//       settings,
-//     },
-//   };
-// }
 export const dynamicParams = false;
 export async function generateStaticParams() {
   const client = createClient();
-
   const pages = await client.getAllByType("page");
-
   return pages.map((page) => prismic.asLink(page));
 }
