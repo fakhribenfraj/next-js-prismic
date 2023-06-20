@@ -36,16 +36,21 @@ function LatestArticle({ article }) {
   );
 }
 
-export default function Article({
-  article,
-  latestArticles,
-  navigation,
-  settings,
-}) {
+export default async function Article({ params }) {
+  const client = createClient();
+  const article = await client.getByUID("article", params.uid);
+  const latestArticles = await client.getAllByType("article", {
+    limit: 3,
+    orderings: [
+      { field: "my.article.publishDate", direction: "desc" },
+      { field: "document.first_publication_date", direction: "desc" },
+    ],
+  });
+  const navigation = await client.getSingle("navigation");
+  const settings = await client.getSingle("settings");
   const date = prismic.asDate(
     article.data.publishDate || article.first_publication_date
   );
-
   return (
     <Layout
       withHeaderDivider={false}
@@ -96,29 +101,29 @@ export default function Article({
   );
 }
 
-export async function getStaticProps({ params, previewData }) {
-  const client = createClient({ previewData });
+// export async function getStaticProps({ params, previewData }) {
+//   const client = createClient({ previewData });
 
-  const article = await client.getByUID("article", params.uid);
-  const latestArticles = await client.getAllByType("article", {
-    limit: 3,
-    orderings: [
-      { field: "my.article.publishDate", direction: "desc" },
-      { field: "document.first_publication_date", direction: "desc" },
-    ],
-  });
-  const navigation = await client.getSingle("navigation");
-  const settings = await client.getSingle("settings");
+//   const article = await client.getByUID("article", params.uid);
+//   const latestArticles = await client.getAllByType("article", {
+//     limit: 3,
+//     orderings: [
+//       { field: "my.article.publishDate", direction: "desc" },
+//       { field: "document.first_publication_date", direction: "desc" },
+//     ],
+//   });
+//   const navigation = await client.getSingle("navigation");
+//   const settings = await client.getSingle("settings");
 
-  return {
-    props: {
-      article,
-      latestArticles,
-      navigation,
-      settings,
-    },
-  };
-}
+//   return {
+//     props: {
+//       article,
+//       latestArticles,
+//       navigation,
+//       settings,
+//     },
+//   };
+// }
 
 export async function getStaticPaths() {
   const client = createClient();
